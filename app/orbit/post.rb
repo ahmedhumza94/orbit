@@ -3,6 +3,12 @@ require 'fileutils'
 require 'time'
 require 'yaml'
 
+module YAML
+  class << self
+    alias_method :load, :unsafe_load
+  end
+end
+
 class Post
   # Public: Get a post's frontmatter from its path.
   #
