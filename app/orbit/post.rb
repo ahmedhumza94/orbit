@@ -2,6 +2,7 @@ require 'date'
 require 'fileutils'
 require 'time'
 require 'yaml'
+require 'active_support/all'
 
 module YAML
   class << self
@@ -47,7 +48,9 @@ class Post
   #
   # Returns a post Hash.
   def self.create(path, metaweblog_struct)
-    now = DateTime.now
+    Time.zone = 'Eastern Time (US & Canada)'
+    now = Time.zone.now
+    now = DateTime.parse(now.to_s)
     filename = now.strftime('%Y-%m-%d-%H-%M-%S.md')
 
     post_id = File.join(path, filename)
@@ -67,12 +70,12 @@ class Post
     unless FileTest.exist?(post['postid'])
       raise XMLRPC::FaultException.new(0, 'Post doesn’t exist')
     end
-
     post['title'] = metaweblog_struct['title'] || ''
     post['description'] = metaweblog_struct['description'] || ''
     post['link'] = metaweblog_struct['link'] || ''
     if post['categories'].include?('[Orbit - Draft]')
-      post['dateCreated'] = Time.now.to_datetime.rfc3339
+      Time.zone = 'Eastern Time (US & Canada)'
+      post['dateCreated'] = Time.zone.now.to_datetime.rfc3339
     end
     post['categories'] = metaweblog_struct['categories'] || []
 
@@ -104,7 +107,8 @@ class Post
       frontmatter['categories'] -= ['[Orbit - Draft]']
     else
       frontmatter.delete('draft') if frontmatter.key?('draft')
-      date_modified = Time.now.to_datetime.rfc3339
+      Time.zone = 'Eastern Time (US & Canada)'
+      date_modified = Time.zone.now.to_datetime.rfc3339
     end
 
 
@@ -195,11 +199,11 @@ class Post
 
       other_frontmatter.push(key => value)
     end
-
+    Time.zone = 'Eastern Time (US & Canada)'
     {
       'title' => frontmatter['title'] || '',
       'link' => frontmatter['link'] || '',
-      'dateCreated' => frontmatter['date'] || Time.parse(DateTime.now.rfc3339.to_s),
+      'dateCreated' => frontmatter['date'] || Time.zone.now.rfc3339
       'categories' => categories,
       'otherFrontmatter' => other_frontmatter || []
     }
