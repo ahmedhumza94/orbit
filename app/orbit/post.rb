@@ -203,7 +203,7 @@ class Post
     {
       'title' => frontmatter['title'] || '',
       'link' => frontmatter['link'] || '',
-      'dateCreated' => frontmatter['date'] || Time.zone.now.rfc3339
+      'dateCreated' => frontmatter['date'] || Time.zone.now.rfc3339,
       'categories' => categories,
       'otherFrontmatter' => other_frontmatter || []
     }
