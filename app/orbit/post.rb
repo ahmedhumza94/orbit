@@ -63,6 +63,7 @@ class Post
     }
 
     write(post_id, frontmatter, body)
+    `/var/www/sites/enabled/HumzaHugoBlog/subAbsImgPath.sh #{post_id}` 
     get(post_id)
   end
 

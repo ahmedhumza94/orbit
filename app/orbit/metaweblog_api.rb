@@ -35,7 +35,7 @@ class MetaWeblogAPI
 
     body = post.delete('description')
     Post.write(post_id, post, body)
-
+    `/var/www/sites/enabled/HumzaHugoBlog/subAbsImgPath.sh #{post_id}`
     @db.refresh_post_paths
 
     run_user_cmd
