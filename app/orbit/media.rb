@@ -4,7 +4,7 @@ require 'time'
 require 'active_support/all'
 
 class Media
-  def self.save(path, name, date)
+  def self.save(path, name, data)
     Time.zone = 'Eastern Time (US & Canada)'
     t = Time.zone.now
     date = DateTime.parse(t.to_s)
@@ -14,7 +14,7 @@ class Media
     file_path = File.join(dir_structure, name)
 
     File.open(file_path, 'w') do |file|
-      file.write(date)
+      file.write(data)
     end
 
     '/images/' + ymd_structure + '/' + name
